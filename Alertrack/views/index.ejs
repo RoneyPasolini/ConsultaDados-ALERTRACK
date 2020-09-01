@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ALERTRACK</title>
+</head>
+<body>
+    <!--Cria a searchBox e o botão de buscar-->
+        <div class="container">
+            <form>
+                <div class="form-row mt-5 ">
+                  <div class="col-10">
+                    <input id="searchBox" style="box-shadow: 5px 5px 10px rgba(0,0,0,0.35) ; border-radius: 10px;" type="text" class="form-control" placeholder="Insira o nome do funcionario">
+                  </div>
+                  <div class="col-2">
+                    <button style="box-shadow: 5px 5px 10px rgba(0,0,0,0.35); border-radius: 10px" id="busca" type="button" class="btn btn-primary">Buscar</button>
+                  </div>
+                </div>
+                
+            </form>
+            <br>
+            <!--Tabela de dados-->
+            <table style="box-shadow: 5px 5px 10px rgba(0,0,0,0.35)" class="table table-bordered">
+                <tr id="tableHeader" class="thead-dark">
+                    <th scope="col">CPF</th>
+                    <th scope="col">NAME</th>
+                    <th scope="col">BORN_AT</th>
+                    <th scope="col">OCCUPATION</th>
+                </tr>
+                <tbody>
+
+                    <!--Recebe os dados do banco de dados para a pagina-->
+                    <%
+
+                    var view_data = null;
+                    if (typeof(data)!='undefined'){
+                        view_data = data 
+                        
+                        for(let i=0; i<view_data.length; i++){ %>
+                            <tr>
+                                <td>
+                                    <%= view_data[i].cpf %>
+                                </td>
+                                <td>
+                                    <%= view_data[i].name %>
+                                </td>
+                                <td>
+                                    <% 
+                                    view_data[i].born_at = view_data[i].born_at.toString();
+                                    let correct_data = view_data[i].born_at[6] + view_data[i].born_at[7] + "/" + view_data[i].born_at[4] + view_data[i].born_at[5] + "/" + view_data[i].born_at[0] + view_data[i].born_at[1] + view_data[i].born_at[2] + view_data[i].born_at[3] 
+                                    %>
+                                    <%= correct_data %>
+                                </td>
+                                <td>
+                                    <%= view_data[i].occupation %>
+                                </td>
+                            </tr>
+
+                            <% }
+                        
+                        
+                        
+                    } %>
+
+                </tbody>
+            </table>
+            </div>
+          </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
+<script>
+    $(document).ready(function() {
+        //Realiza o evento do botão (Realiza a pesquisa com o que está escrito no searchBox)
+        $('#busca').click(function(){
+            var $rows = $("tr");
+            
+            var val = $.trim($('#searchBox').val());
+            
+            if (val == ""){
+                $('#tableHeader').show();
+                $rows.show();
+            }else {
+                $rows.hide();
+                $rows.has("td:contains(" + val + ")").show();
+                $('#tableHeader').show();
+            }
+        });
+    });
+</script>
+</body>
+</html>
